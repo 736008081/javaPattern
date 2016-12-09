@@ -3,6 +3,8 @@ package test;
 import java.io.IOException;
 import java.security.Provider;
 
+import javax.swing.plaf.multi.MultiButtonUI;
+
 import cn.arlen.abstractfactory.IProvider;
 import cn.arlen.abstractfactory.MailFactory;
 import cn.arlen.abstractfactory.SmsFactory;
@@ -15,6 +17,11 @@ import cn.arlen.bridge.MyBridge;
 import cn.arlen.bridge.SourceSub1;
 import cn.arlen.bridge.SourceSub2;
 import cn.arlen.builder.Builder;
+import cn.arlen.chain.MyHandler;
+import cn.arlen.command.ICommand;
+import cn.arlen.command.InVoke;
+import cn.arlen.command.MyCommand;
+import cn.arlen.command.Received;
 import cn.arlen.composite.Tree;
 import cn.arlen.composite.TreeNode;
 import cn.arlen.decorator.Decorator;
@@ -22,10 +29,24 @@ import cn.arlen.decorator.ISourceable;
 import cn.arlen.decorator.Source;
 import cn.arlen.facade.Computer;
 import cn.arlen.factory.SendFactory;
+import cn.arlen.iterator.Collection;
+import cn.arlen.iterator.Iterator;
+import cn.arlen.iterator.MyCollection;
 import cn.arlen.morefactory.MoreSendFactory;
+import cn.arlen.observer.ISubject;
+import cn.arlen.observer.MySubject;
+import cn.arlen.observer.Observer;
+import cn.arlen.observer.Subject1;
+import cn.arlen.observer.Subject2;
 import cn.arlen.prototype.Prototype;
 import cn.arlen.singleton.SingletonPerfect;
 import cn.arlen.staticfactory.StaticFactory;
+import cn.arlen.strategy.ICalculator;
+import cn.arlen.strategy.Minus;
+import cn.arlen.strategy.Multiply;
+import cn.arlen.strategy.Plus;
+import cn.arlen.template.AbstractCalulate;
+import cn.arlen.template.TemplatePlus;
 import model.ISender;
 
 public class MainTest {
@@ -167,7 +188,7 @@ public class MainTest {
 	 * 例如二叉树、树等
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Tree tree = new Tree("A");
 		TreeNode nodeB = new TreeNode("B");
 		TreeNode nodeC = new TreeNode("C");
@@ -175,5 +196,80 @@ public class MainTest {
 		nodeB.add(nodeC);
 		tree.root.add(nodeB);
 		System.out.println("build the tree finished");
+	}*/
+	
+	/**
+	 * 策略模式，定义一系列的算法，使他们可以互相替换，且算法的变化不会
+	 * 影响到使用算法的客户，需要设计一个接口，为一系列实现类提供统一的方法，
+	 * 多个实现类实现该接口，设计一个抽象类
+	 * @param args
+	 */
+	/*	public static void main(String[] args) {
+		ICalculator calculator = new Plus();
+		System.out.println("加法算法："+calculator.calculate("8+6"));
+		
+		ICalculator calculator1 = new Minus();
+		System.out.println("减法算法："+calculator1.calculate("8-6"));
+		
+		ICalculator calculator2 = new Multiply();
+		System.out.println("乘法算法："+calculator2.calculate("8*6"));
+	}*/
+	
+	/**
+	 * 模板方法模式，在抽象类中定义抽象方法，并在本类调用，具体实现让子类去操作
+	 * @param args
+	 */
+	/*public static void main(String[] args) {
+		AbstractCalulate abstractCalulate = new TemplatePlus();
+		System.out.println(abstractCalulate.calulate("8+3","\\+"));
+	}*/
+	
+	/**
+	 * 观察者模式，当一个对象发生变化时，依赖该对象的类都会收到通知，并随之变化
+	 * @param args
+	 */
+	/*public static void main(String[] args) {
+		ISubject subject = new MySubject();
+		Observer observer = new Subject1();
+		subject.add(observer);
+		subject.add(new Subject2());
+//		subject.delete(observer);
+		subject.operation();
+	}*/
+	
+	/**
+	 * 迭代子模式，顺序的访问聚集中的对象
+	 * @param args
+	 */
+	/*public static void main(String[] args) {
+		Collection collection = new MyCollection();
+		Iterator it = collection.iterator();
+		
+		while(it.hasNext()){
+			System.out.println(it.next());
+		}
+	}*/
+	
+	/**
+	 * 责任链模式，多个对象，每个对象持有下一个对象的引用，这样
+	 * 就会形成一条链，请求在这条链上的传递，直到某一对小决定
+	 * 处理该请求
+	 */
+	/*public static void main(String[] args) {
+		MyHandler handler1 = new MyHandler("deal1");
+		MyHandler handler2 = new MyHandler("deal2");
+		MyHandler handler3 = new MyHandler("deal3");
+		
+		handler1.setHandler(handler2);
+		handler2.setHandler(handler3);
+		
+		handler1.operation();
+	}*/
+	
+	public static void main(String[] args) {
+		Received received = new Received();
+		ICommand command = new MyCommand(received);
+		InVoke inVoke = new InVoke(command);
+		inVoke.action();
 	}
 }

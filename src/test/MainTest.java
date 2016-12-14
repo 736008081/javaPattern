@@ -29,9 +29,16 @@ import cn.arlen.decorator.ISourceable;
 import cn.arlen.decorator.Source;
 import cn.arlen.facade.Computer;
 import cn.arlen.factory.SendFactory;
+import cn.arlen.interpreter.Contexted;
+import cn.arlen.interpreter.Minused;
+import cn.arlen.interpreter.Plused;
 import cn.arlen.iterator.Collection;
 import cn.arlen.iterator.Iterator;
 import cn.arlen.iterator.MyCollection;
+import cn.arlen.mediator.IMediator;
+import cn.arlen.mediator.Mediator;
+import cn.arlen.memento.Original;
+import cn.arlen.memento.Storage;
 import cn.arlen.morefactory.MoreSendFactory;
 import cn.arlen.observer.ISubject;
 import cn.arlen.observer.MySubject;
@@ -40,6 +47,8 @@ import cn.arlen.observer.Subject1;
 import cn.arlen.observer.Subject2;
 import cn.arlen.prototype.Prototype;
 import cn.arlen.singleton.SingletonPerfect;
+import cn.arlen.state.Context;
+import cn.arlen.state.State;
 import cn.arlen.staticfactory.StaticFactory;
 import cn.arlen.strategy.ICalculator;
 import cn.arlen.strategy.Minus;
@@ -47,6 +56,10 @@ import cn.arlen.strategy.Multiply;
 import cn.arlen.strategy.Plus;
 import cn.arlen.template.AbstractCalulate;
 import cn.arlen.template.TemplatePlus;
+import cn.arlen.visitor.ISubjected;
+import cn.arlen.visitor.IVisitor;
+import cn.arlen.visitor.Subject;
+import cn.arlen.visitor.Visitor;
 import model.ISender;
 
 public class MainTest {
@@ -266,10 +279,85 @@ public class MainTest {
 		handler1.operation();
 	}*/
 	
-	public static void main(String[] args) {
+	/**
+	 * 命令行模式，指令的一层层传递下去，有点类似将军下发命令，士兵去执行
+	 */
+	/*public static void main(String[] args) {
 		Received received = new Received();
 		ICommand command = new MyCommand(received);
 		InVoke inVoke = new InVoke(command);
 		inVoke.action();
-	}
+	}*/
+	
+	
+	/**
+	 * 备忘录模式，保存类的属性或对象，在修改相关的属性以后，能回滚回去
+	 * @param args
+	 */
+	/*public static void main(String[] args) {
+		Original original = new Original("wdd");
+		
+		//创建备忘录
+		Storage storage = new Storage(original.createMemento());
+		
+		//修改原始类
+		System.out.println("初始化为："+original.getValue());
+		
+		original.setValue("niu");
+		System.out.println("修改后的状态为："+original.getValue());
+		
+		//恢复原始类的状态
+		original.restoreMemento(storage.getMemento());
+		System.out.println("恢复后的状态为："+original.getValue());
+	}*/
+	
+	/**
+	 * 状态模式，状态的转换，根据不同的状态去执行相应的操作，如权限管理
+	 * 状态切换等
+	 * @param args
+	 */
+	/*	public static void main(String[] args) {
+		State state1 = new State();
+		Context context = new Context();
+		context.setState(state1);
+		state1.setValue("method1");
+		context.method();
+		
+		state1.setValue("method2");
+		context.method();
+	}*/
+	
+	/**
+	 * 访问者模式，访问者模式把数据结构和作用于结构上的操作解耦合，
+	 * 使得操作集合可相对自由地演化，其缺点就是增加新的数据结构很困难。
+	 * @param args
+	 */
+	/*public static void main(String[] args) {
+		IVisitor visitor = new Visitor();
+		ISubjected subject = new Subject();
+		subject.accept(visitor);
+	}*/
+	
+	/**
+	 * 中介模式，降低类的耦合度，因为如果类类之间有依赖关系，
+		不利于功能的扩展和维护，因为只要修改一个对象，其他关联的
+		对象都得修改，如果使用中介模式，只需关心和Mediator的关系，
+		具体类类之间的关系及调度交给Mediator就行
+	 * @param args
+	 */
+	/*public static void main(String[] args) {
+		IMediator mediator = new Mediator();
+		mediator.createMediator();
+		mediator.workAll();
+	}*/
+	
+	/**
+	 * 解释器模式，一般用于OOP开发中，用的比较少，解析各种命令，如正则表达式中
+	 * @param args
+	 */
+	/*public static void main(String[] args) {
+		int result = new Minused().interpret
+				((new Contexted(new Plused().interpret(new Contexted(9, 2)), 8)));
+		System.out.println("current result:"+result);
+	}*/
 }
